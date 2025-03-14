@@ -1,6 +1,6 @@
 # Load Balancer in TypeScript
 
-This project implements a load balancer in Node.js using TypeScript. It supports both health checks and two load balancing strategies: simple round-robin and weighted round-robin. The project leverages Express.js for request routing, TypeDI for dependency injection, and Cron for scheduling periodic health checks.
+This project implements a load balancer in Node.js using TypeScript. It supports both health checks and two load balancing strategies: simple round-robin and weighted round-robin. The project leverages Express.js for request routing, TypeDI for dependency injection, and Cron for scheduling periodic health checks
 
 ## Table of Contents
 
