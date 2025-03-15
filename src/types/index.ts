@@ -1,11 +1,7 @@
-export type Target = {
-  host: string;
-  port: number;
-  healthCheckRoute: string;
-  healthy: boolean;
-  weight?: number;
-};
+import Target from "../models/Target";
 
+// A pool of Target servers make up a TargetGroup
 export type TargetGroup = Target[];
 
-export type LoadBalancingStrategy = "SIMPLE" | "WEIGHTED";
+// Load balancing strategies supported
+export type LoadBalancingStrategy = "SIMPLE" | "WEIGHTED" | "LEAST_CONNECTIONS";

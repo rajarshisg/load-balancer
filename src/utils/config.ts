@@ -11,7 +11,7 @@ const CONFIG = {
         weight: 1, // any integer value, higher the weight, higher the number of requests which will be routed to the target in weighted load balancing
       },
     ],
-    algorithm: "SIMPLE", // algorithm followed by the load balancer. Options are `SIMPLE` and `WEIGHTED`.
+    algorithm: "SIMPLE", // algorithm followed by the load balancer. Options are `SIMPLE`, `WEIGHTED` and `LEAST_CONNECTIONS`.
     healthChecks: {
       enabled: true, // whether health checks are enabled or not
       cron: "* * * * *", // health checks are done once every minute
