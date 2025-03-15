@@ -39,7 +39,7 @@ class HttpClient {
           path: reqParams.path,
           method: reqParams.method,
           headers: reqParams.headers,
-          timeout: reqParams.timeout || 30000, // Default timeout is 30 seconds if not specified
+          timeout: reqParams.timeout || 10000, // Default timeout is 10 seconds if not specified
         },
         (res: IncomingMessage) => {
           let data = "";
@@ -61,6 +61,11 @@ class HttpClient {
           });
         }
       );
+
+      // use its "timeout" event to abort the request
+      req.on("timeout", () => {
+        req.destroy();
+      });
 
       req.on("error", (err) => {
         reject(err);

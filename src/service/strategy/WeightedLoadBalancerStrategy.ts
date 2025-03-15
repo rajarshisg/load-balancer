@@ -1,13 +1,15 @@
 import { Service } from "typedi";
 import BaseStrategy from "./BaseLoadBalancerStrategy";
-import { Target, TargetGroup } from "../../types";
+import { TargetGroup } from "../../types";
+import Target from "../../models/Target";
 
+/**
+ * Implements the weighted load balancing strategy
+ * Targets with higher weights receive proportionally more number of requests
+ */
 @Service()
 class WeightedLoadBalancerStrategy implements BaseStrategy {
-  /**
-   * Implements the weighted load balancing strategy.
-   * This method calculates the cumulative weights for each target.
-   */
+  // returns a prefix sum array of the weights of all the targets
   private getCumulativeWeights(targetGroup: TargetGroup): number[] {
     const cumulativeWeights = [];
     targetGroup.forEach((target: Target, index: number) => {
@@ -22,9 +24,7 @@ class WeightedLoadBalancerStrategy implements BaseStrategy {
     return cumulativeWeights;
   }
 
-  /**
-   * Selects the next target based on the weighted round-robin load balancing strategy.
-   */
+  // selects the next target based on the weighted round-robin load balancing strategy.
   public getTarget(targetGroup: TargetGroup): Target {
     if (targetGroup.length === 0) {
       throw new Error("Target group is empty");

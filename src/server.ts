@@ -2,13 +2,13 @@ import express from "express";
 import { Service, Inject, Container } from "typedi";
 import CONFIG from "./utils/config";
 import HealthChecker from "./service/HealthChecker";
-import { TargetGroup } from "./types";
+import { LoadBalancingStrategy, TargetGroup } from "./types";
 import LoadBalancer, {
   STRATEGY_TOKEN,
   TARGET_GROUP,
 } from "./service/LoadBalancer";
-import SimpleLoadBalancerStrategy from "./service/strategy/SimpleLoadBalancerStrategy";
-import WeightedLoadBalancerStrategy from "./service/strategy/WeightedLoadBalancerStrategy";
+import Target from "./models/Target";
+import LoadBalancerStrategyFactory from "./service/strategy/LoadBalancerStrategyFactory";
 
 @Service()
 class Server {
@@ -23,18 +23,24 @@ class Server {
   constructor() {
     // get the target group list from config
     for (const target of CONFIG.loadBalancer.targetGroup) {
-      this.targetGroup.push({
-        ...target,
-        healthy: true,
-      });
+      this.targetGroup.push(
+        new Target(
+          target.host,
+          target.port,
+          target.healthCheckRoute,
+          target.weight
+        )
+      );
     }
 
+    // set the strategy / algorithm used by the load balancer
     Container.set(
       STRATEGY_TOKEN,
-      CONFIG.loadBalancer.algorithm === "WEIGHTED"
-        ? Container.get(WeightedLoadBalancerStrategy)
-        : Container.get(SimpleLoadBalancerStrategy)
+      LoadBalancerStrategyFactory.getStrategy(
+        CONFIG.loadBalancer.algorithm as LoadBalancingStrategy
+      )
     );
+    // set the target group available to the load balancer
     Container.set(TARGET_GROUP, this.targetGroup);
     this.loadBalancer = Container.get(LoadBalancer);
   }
