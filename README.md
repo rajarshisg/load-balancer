@@ -1,6 +1,6 @@
 # Load Balancer in TypeScript
 
-This project implements a load balancer in Node.js using TypeScript. It supports both health checks and two load balancing strategies: simple round-robin and weighted round-robin. The project leverages Express.js for request routing, TypeDI for dependency injection, and Cron for scheduling periodic health checks.
+This project implements a load balancer in Node.js using TypeScript. It supports both health checks and common load balancing strategies like simple round-robin, weighted round-robin, least connections etc. The project leverages Express.js for request routing, TypeDI for dependency injection, and Cron for scheduling periodic health checks.
 
 ## Table of Contents
 
@@ -16,6 +16,7 @@ This project implements a load balancer in Node.js using TypeScript. It supports
 - **Multiple Load Balancing Strategies:**
   - **Simple Round-Robin:** Cycles through available healthy targets.
   - **Weighted Round-Robin:** Routes traffic based on target weights.
+  - **Least Connections:** Routes traffic based on the target having the least number of active connections.
 - **Health Checks:** Periodically checks each target’s health using configurable cron jobs.
 - **HTTP Forwarding:** Forwards incoming HTTP requests to healthy targets, maintaining request headers and body.
 - **Connection Pooling** - Maintains a persistent pool of HTTP connections to the targets.
@@ -64,7 +65,7 @@ The application is configured via `src/utils/config.ts`. Key settings include:
   - `server.port`: Port on which the load balancer runs.
 - **Load Balancer Settings**:
   - `loadBalancer.targetGroup`: An array of target servers with details like host, port, health check route, and weight (optional, used in case of weighted load balancing).
-  - `loadBalancer.algorithm`: Choose between "SIMPLE" or "WEIGHTED" strategies.
+  - `loadBalancer.algorithm`: Choose between "SIMPLE" or "WEIGHTED" or "LEAST_CONNECTIONS" strategies.
   - `loadBalancer.healthChecks.enabled`: Enable or disable health checks.
   - `loadBalancer.healthChecks.cron`: Cron expression for scheduling health checks (default runs every minute).
 
