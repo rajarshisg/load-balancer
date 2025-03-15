@@ -29,10 +29,14 @@ The application is organized into several key modules:
 
 - **Clients:**
   - `src/clients/HttpClient.ts` handles outbound HTTP requests, maintaining connection pools with configurable keep-alive settings.
+- **Models:**
+  - `src/models/Target.ts` represents a Target, which is a server to which the load balancer can route it's requests to.
 - **Strategies:**
   - `src/service/strategy/BaseLoadBalancerStrategy.ts` defines the interface for load balancing strategies.
+  - `src/service/strategy/LoadBalancerStrategyFactory.ts` factory class for the different strategies.
   - `src/service/strategy/SimpleLoadBalancerStrategy.ts` implements a round-robin approach.
   - `src/service/strategy/WeightedLoadBalancerStrategy.ts` implements a weighted round-robin mechanism.
+  - `src/service/strategy/LeastConnectionsLoadBalancerStrategy.ts` implements a least active connections mechanism.
 - **Services:**
   - `src/service/HealthChecker.ts` performs periodic health checks on targets using a cron job.
   - `src/service/LoadBalancer.ts` selects a healthy target based on the chosen strategy and forwards the HTTP request.
