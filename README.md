@@ -2,6 +2,9 @@
 
 This project implements a load balancer in Node.js using TypeScript. It supports both health checks and common load balancing strategies like simple round-robin, weighted round-robin, least connections etc. The project leverages Express.js for request routing, TypeDI for dependency injection, and Cron for scheduling periodic health checks.
 
+![Screen Recording 2025-03-14 at 6 19 01 PM (online-video-cutter com)](https://github.com/user-attachments/assets/a80225de-ce41-479c-b0aa-f3a2fd39ee7d)
+
+
 ## Table of Contents
 
 - [Features](#features)
